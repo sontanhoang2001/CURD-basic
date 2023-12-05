@@ -14,8 +14,7 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
 require_once "../../config.php";
 
 // Define variables and initialize with empty values
-$name = $address = $salary = $startDate = $endTime = "";
-$role = 0;
+$name = $address = $salary = $startDate = $endTime = $roleId = "";
 $name_err = $address_err = $salary_err = $role_err = $startDate_err = $endTime_err = "";
 
 // Processing form data when form is submitted
@@ -51,8 +50,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Validate startDate
     $input_startDate = trim($_POST["startDate"]);
     if (empty($input_startDate)) {
-        echo "ok" . $input_startDate;
-
         $startDate_err = "Please enter the startDate.";
     } else {
         $startDate = $input_startDate;
@@ -69,13 +66,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
     // Validate role
-    $input_role = trim($_POST["role"]);
+    $input_role = trim($_POST["roleId"]);
     if ($input_role == 0) {
         $role_err = "Vui lòng nhập role";
     } elseif (!ctype_digit($input_role)) {
         $role_err = "Vui lòng nhập đúng định dạng.";
     } else {
-        $role = $input_role;
+        $roleId = $input_role;
     }
 
 
@@ -94,7 +91,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $param_salary = $salary;
             $param_startDate = $startDate;
             $param_endTime = $endTime;
-            $param_role = $role;
+            $param_role = $roleId;
 
 
             // Attempt to execute the prepared statement
@@ -175,11 +172,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         ?>
                                 <div class="form-group">
                                     <label for="exampleFormControlSelect1">Role</label>
-                                    <select class="form-control" id="exampleFormControlSelect1" name='role'>
+                                    <select class="form-control" id="exampleFormControlSelect1" name='roleId'>
                                         <option value=0>Chọn role</option>
                                         <?php
                                         while ($row = mysqli_fetch_array($result)) { ?>
-                                            <option value='<?php echo $row['id'] ?>'><?php echo $row['name'] ?></option>
+                                            <option value='<?php echo $row['id']; ?>' <?php if ($roleId == $row['id']) {
+                                                                                            echo "selected";
+                                                                                        } ?>>
+                                                <?php echo $row['name']; ?>
+                                            </option>
                                         <?php
                                         }
                                         ?>
