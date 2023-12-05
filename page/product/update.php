@@ -14,9 +14,8 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
 require_once "../../config.php";
 
 // Define variables and initialize with empty values
-$name = $address = $salary = $startDate = $endTime = "";
-$role = 0;
-$name_err = $address_err = $salary_err = $role_err = $startDate_err = $endTime_err = "";
+$name = $address = $salary = $startDate = $endTime = $roleId = "";
+$name_err = $address_err = $salary_err = $roleId_err = $startDate_err = $endTime_err = "";
 
 // Processing form data when form is submitted
 if (isset($_POST["id"]) && !empty($_POST["id"])) {
@@ -69,13 +68,13 @@ if (isset($_POST["id"]) && !empty($_POST["id"])) {
     }
 
     // Validate role
-    $input_role = trim($_POST["role"]);
+    $input_role = trim($_POST["roleId"]);
     if ($input_role == 0) {
         $role_err = "Vui lòng nhập role";
     } elseif (!ctype_digit($input_role)) {
         $role_err = "Vui lòng nhập đúng định dạng.";
     } else {
-        $role = $input_role;
+        $roleId = $input_role;
     }
 
 
@@ -95,7 +94,7 @@ if (isset($_POST["id"]) && !empty($_POST["id"])) {
             $param_startDate = $startDate;
             $param_endTime = $endTime;
 
-            $param_role = $role;
+            $param_role = $roleId;
             $param_id = $id;
 
 
@@ -240,7 +239,7 @@ if (isset($_POST["id"]) && !empty($_POST["id"])) {
                         ?>
                                 <div class="form-group">
                                     <label for="exampleFormControlSelect1">Role</label>
-                                    <select class="form-control" id="exampleFormControlSelect1" name='role'>
+                                    <select class="form-control" id="exampleFormControlSelect1" name='roleId'>
                                         <option value=0>Chọn role</option>
 
                                         <?php
@@ -253,7 +252,7 @@ if (isset($_POST["id"]) && !empty($_POST["id"])) {
                                                     }
                                                         ?>
                                     </select>
-                                    <span class="invalid-feedback" style="<?php echo (!empty($role_err)) ? 'display:block !important;' : ''; ?>"><?php echo $role_err; ?></span>
+                                    <span class="invalid-feedback" style="<?php echo (!empty($roleId_err)) ? 'display:block !important;' : ''; ?>"><?php echo $role_err; ?></span>
                                 </div>
 
                         <?php

@@ -67,7 +67,7 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
                 require_once "../../config.php";
 
                 // Attempt select query execution
-                $sql = "SELECT employees.*, roles.name as 'roleName' FROM employees INNER JOIN roles ON roles.id=employees.roleId order by employees.id desc;";
+                $sql = "SELECT employees.*, roles.name as 'roleName' FROM employees JOIN roles ON roles.id=employees.roleId order by employees.id desc;";
                 if ($result = mysqli_query($link, $sql)) {
                     if (mysqli_num_rows($result) > 0) { ?>
                         <table class="table table-bordered table-striped">
